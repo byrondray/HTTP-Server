@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <title>Homepage</title>
+  <link rel="stylesheet" type="text/css" href="./homepageHelper.css" />
+  <body>
+    <div class="main-container">
+      <h1>Users</h1>
+      <div class="users-container">
+        <% users.forEach(user => { %>
+        <div class="user-card">
+          <img
+            <img
+            src="/profilePicture/<%= user.username %>"
+            alt="<%= user.username %>'s Profile Picture"
+            class="profile-img"
+          />
+          <div class="user-info">
+            <form>
+              <a href="/feed?username=<%= user.username %>">
+                <input
+                  type="text"
+                  class="button username"
+                  value="<%= user.username %>"
+                />
+              </a>
+              <input type="file" class="button" />Upload
+            </form>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </body>
+</html>
