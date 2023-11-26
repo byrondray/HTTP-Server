@@ -18,17 +18,13 @@ function getContentType(fileName) {
     case ".bmp":
       return "image/bmp";
     default:
-      return "application/octet-stream"; // Default to binary data
+      return "application/octet-stream";
   }
 }
 
 const allRoutes = {
   "/profilePicture:get": (request, response) => {
-    // Assuming the username has been extracted earlier and attached to the request object
     const username = request.username;
-
-    // Log the username to verify it's being passed correctly
-    console.log(`Username received: ${username}`);
 
     const profileImageFilename = "profile.jpeg";
     const profileImagePath = path.join(
@@ -37,8 +33,6 @@ const allRoutes = {
       username,
       profileImageFilename
     );
-
-    console.log(`Looking for image at: ${profileImagePath}`);
 
     fs.readFile(profileImagePath, (err, data) => {
       if (err) {
@@ -51,24 +45,6 @@ const allRoutes = {
       }
     });
   },
-  // "/profilePicture:get": (request, response) => {
-  //   const cssFilePath = path.join(
-  //     __dirname,
-  //     "photos",
-  //     "john123",
-  //     "profile.jpeg"
-  //   );
-
-  //   fs.readFile(cssFilePath, (err, data) => {
-  //     if (err) {
-  //       response.writeHead(404, DEFAULT_HEADER);
-  //       response.end("File not found");
-  //     } else {
-  //       response.writeHead(200, { "Content-Type": "image/jpeg" });
-  //       response.end(data);
-  //     }
-  //   });
-  // },
   "/homepageHelper.css:get": (request, response) => {
     const cssFilePath = path.join(__dirname, "homepageHelper.css");
 
@@ -129,7 +105,6 @@ function handler(request, response) {
   const { url, method } = request;
   const { pathname } = parse(url, true);
 
-  // Check if the pathname starts with '/profilePicture/' for dynamic username handling
   if (
     pathname.startsWith("/profilePicture/") &&
     method.toLowerCase() === "get"
@@ -140,13 +115,10 @@ function handler(request, response) {
       response.end("Username is missing in the URL");
       return;
     }
-    // Pass the username as a property of the request object
     request.username = username;
-    // Now call the profilePicture handler
     return allRoutes["/profilePicture:get"](request, response);
   }
 
-  // Handle other routes
   const key = `${pathname}:${method.toLowerCase()}`;
   const chosen = allRoutes[key] || allRoutes.default;
 

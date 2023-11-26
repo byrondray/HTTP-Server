@@ -30,16 +30,13 @@ const controller = {
 
   getFeed: async (request, response) => {
     try {
-      // Extract the username from the query string
       const username = getQueryParam(
         request.url,
         "username",
         request.headers.host
       );
       console.log(username);
-      // Use the username to filter or process the users data as needed
       const users = await processUsersData("../database/data.json");
-      // Assuming you want to find a user with the username, as an example
       const user = users.find((u) => u.username === username);
 
       if (!user) {
@@ -48,7 +45,6 @@ const controller = {
         return;
       }
 
-      // Pass the user to the EJS template
       const str = await ejs.renderFile(path.join(__dirname, "getFeed.ejs"), {
         user: user,
       });
