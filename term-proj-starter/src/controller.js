@@ -35,7 +35,6 @@ const controller = {
         "username",
         request.headers.host
       );
-      console.log(username);
       const users = await processUsersData("../database/data.json");
       const user = users.find((u) => u.username === username);
 

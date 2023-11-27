@@ -26,15 +26,14 @@ const allRoutes = {
   "/profilePicture:get": (request, response) => {
     const username = request.username;
 
-    const profileImageFilename = "profile.jpeg";
-    const profileImagePath = path.join(
+    const profilePicturePath = path.join(
       __dirname,
       "photos",
       username,
-      profileImageFilename
+      "profile.jpeg"
     );
 
-    fs.readFile(profileImagePath, (err, data) => {
+    fs.readFile(profilePicturePath, (err, data) => {
       if (err) {
         console.error(`Error reading file: ${err.message}`);
         response.writeHead(404, { "Content-Type": "text/plain" });
@@ -67,6 +66,22 @@ const allRoutes = {
         response.end("File not found");
       } else {
         response.writeHead(200, { "Content-Type": "text/css" });
+        response.end(data);
+      }
+    });
+  },
+  "/profileImages:get": (request, response) => {
+    const photo = request.photo;
+
+    const profileImagePath = path.join(__dirname, "photos", "john123", photo);
+
+    fs.readFile(profileImagePath, (err, data) => {
+      if (err) {
+        console.error(`Error reading file: ${err.message}`);
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        response.end("File not found");
+      } else {
+        response.writeHead(200, { "Content-Type": "image/png" });
         response.end(data);
       }
     });
@@ -117,6 +132,20 @@ function handler(request, response) {
     }
     request.username = username;
     return allRoutes["/profilePicture:get"](request, response);
+  }
+
+  if (
+    pathname.startsWith("/profileImages/") &&
+    method.toLowerCase() === "get"
+  ) {
+    const photo = pathname.split("/")[2];
+    if (!photo) {
+      response.writeHead(400, { "Content-Type": "text/plain" });
+      response.end("Username is missing in the URL");
+      return;
+    }
+    request.photo = photo;
+    return allRoutes["/profileImages:get"](request, response);
   }
 
   const key = `${pathname}:${method.toLowerCase()}`;
