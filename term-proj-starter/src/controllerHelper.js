@@ -43,9 +43,11 @@ async function processUsersData(jsonFilePath) {
   }
 }
 
-async function getProfileImagePath() {
-  const jsonFilePath = path.join("..", "database", "data.json");
+async function getProfileImagePath(request) {
+  const jsonFilePath = path.join("..", "database", "data.json"); // Update with the actual JSON file path
   const users = await processUsersData(jsonFilePath);
+
+  const username = "john123";
 
   const user = users.find((user) => user.username === username);
 
@@ -67,4 +69,4 @@ module.exports = {
   getQueryParam,
   processUsersData,
   getProfileImagePath,
-  };
+};

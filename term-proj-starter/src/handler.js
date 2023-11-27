@@ -72,8 +72,9 @@ const allRoutes = {
   },
   "/profileImages:get": (request, response) => {
     const photo = request.photo;
+    const username = request.username;
 
-    const profileImagePath = path.join(__dirname, "photos", "john123", photo);
+    const profileImagePath = path.join(__dirname, "photos", username, photo);
 
     fs.readFile(profileImagePath, (err, data) => {
       if (err) {
@@ -98,7 +99,7 @@ const allRoutes = {
     controller.sendFormData(request, response);
   },
   // POST: localhost:3000/images
-  "/images:post": (request, response) => {
+  "/upload:post": (request, response) => {
     controller.uploadImages(request, response);
   },
   // GET: localhost:3000/feed
@@ -120,6 +121,11 @@ function handler(request, response) {
   const { url, method } = request;
   const { pathname } = parse(url, true);
 
+
+  if (pathname === "/upload" && method.toLowerCase() === "post") {
+    controller.uploadImages(request, response);
+  }
+
   if (
     pathname.startsWith("/profilePicture/") &&
     method.toLowerCase() === "get"
@@ -138,12 +144,14 @@ function handler(request, response) {
     pathname.startsWith("/profileImages/") &&
     method.toLowerCase() === "get"
   ) {
-    const photo = pathname.split("/")[2];
+    const username = pathname.split("/")[2];
+    const photo = pathname.split("/")[3];
     if (!photo) {
       response.writeHead(400, { "Content-Type": "text/plain" });
       response.end("Username is missing in the URL");
       return;
     }
+    request.username = username;
     request.photo = photo;
     return allRoutes["/profileImages:get"](request, response);
   }

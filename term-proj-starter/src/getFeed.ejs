@@ -69,7 +69,7 @@
           <% user.photos.forEach(photo => { %>
           <div class="gallery-item" tabindex="0">
             <img
-              src="/profileImages/<%= photo %>"
+              src="/profileImages/<%= user.username %>/<%= photo %>"
               class="gallery-image"
               alt=""
             />

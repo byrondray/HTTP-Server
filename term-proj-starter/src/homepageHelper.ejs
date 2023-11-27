@@ -15,15 +15,16 @@
             class="profile-img"
           />
           <div class="user-info">
-            <form>
-              <a href="/feed?username=<%= user.username %>">
-                <input
-                  type="text"
-                  class="button username"
-                  value="<%= user.username %>"
-                />
-              </a>
-              <input type="file" class="button" />Upload
+            <a href="/feed?username=<%= user.username %>">
+              <input
+                type="text"
+                class="button username"
+                value="<%= user.username %>"
+              />
+            </a>
+            <form action="/upload" enctype="multipart/form-data" method="post">
+              <input type="file" name="upload" accept="image/*" /><br />
+              <input type="submit" value="upload" />
             </form>
           </div>
         </div>
