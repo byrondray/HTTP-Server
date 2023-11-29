@@ -44,7 +44,7 @@ async function processUsersData(jsonFilePath) {
 }
 
 async function getProfileImagePath(request) {
-  const jsonFilePath = path.join("..", "database", "data.json"); // Update with the actual JSON file path
+  const jsonFilePath = path.join("..", "database", "data.json");
   const users = await processUsersData(jsonFilePath);
 
   const username = "john123";

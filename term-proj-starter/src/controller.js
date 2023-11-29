@@ -58,58 +58,13 @@ const controller = {
     }
   },
 
-  // uploadImages: async (request, response) => {
-  //   const form = formidable({});
-
-  //   form.uploadDir = path.join(__dirname, "photos", "john123");
-  //   form.keepExtensions = true;
-
-  //   form.parse(request, (err, fields, files) => {
-  //     if (err) {
-  //       response.writeHead(500, { "Content-Type": "text/plain" });
-  //       response.end("Error uploading file.");
-  //       return;
-  //     }
-  //     const oldPath = files.upload[0].filepath;
-  //     const newPath = path.join(form.uploadDir, files.upload[0].originalFilename);
-
-  //     fs.rename(oldPath, newPath, (err) => {
-  //       if (err) {
-  //         response.writeHead(500, { "Content-Type": "text/plain" });
-  //         response.end("Error moving file.");
-  //         return;
-  //       }
-  //       response.writeHead(200, { "Content-Type": "image/png" });
-  //       response.write("File uploaded successfully");
-  //       response.end("Image uploaded successfully");
-  //     });
-
-  //   });
-  //   try {
-  //     // Read the current JSON file
-  //     const users = processUsersData();
-  //     const username = "john123";
-
-  //     // Find the user and add the new image path
-  //     const user = users.find(u => u.username === username);
-  //     if (user) {
-  //       user.photos.push(filename); // Add new filename to the photos array
-  //     }
-
-  //     // Write the updated users back to the file
-  //     await fs.writeFile(path.join(__dirname, "..", 'database', 'data.json'), JSON.stringify(users, null, 2), 'utf8');
-
-  //     response.writeHead(200, { "Content-Type": "image/png" });
-  //     response.end("Image uploaded successfully");
-  //   } catch (fileErr) {
-  //     response.writeHead(500, { "Content-Type": "text/plain" });
-  //     response.end("Error updating user photos.");
-  //   }
-  // },
   uploadImages: async (request, response) => {
+    const username = getQueryParam(
+      request.url,
+      "username",
+      request.headers.host
+    );
     const form = formidable({});
-    const username = "john123"; // This should be dynamically determined, e.g., from the session or request body.
-
     form.uploadDir = path.join(__dirname, "photos", username);
     form.keepExtensions = true;
 
@@ -120,7 +75,7 @@ const controller = {
         return;
       }
       const oldPath = files.upload[0].filepath;
-      const filename = files.upload[0].originalFilename; // filename needs to be declared here
+      const filename = files.upload[0].originalFilename;
       const newPath = path.join(form.uploadDir, filename);
 
       try {
@@ -130,7 +85,7 @@ const controller = {
 
         const user = users.find((u) => u.username === username);
         if (user) {
-          user.photos.push(filename); // Add new filename to the photos array
+          user.photos.push(filename);
         }
 
         await fs.writeFile(
@@ -147,6 +102,43 @@ const controller = {
         response.end("Error processing the uploaded image.");
       }
     });
+  },
+  deleteImage: async (request, response) => {
+    const username = getQueryParam(
+      request.url,
+      "username",
+      request.headers.host
+    );
+    const photo = getQueryParam(request.url, "photo", request.headers.host);
+
+    console.log(username, photo);
+    try {
+      const users = await processUsersData("../database/data.json");
+      const user = users.find((u) => u.username === username);
+
+      if (user && user.photos.includes(photoName)) {
+        const photoIndex = user.photo.indexOf(photo);
+        user.photos.splice(photoIndex, 1);
+
+        await fs.unlink(path.join(__dirname, "photos", username, photo));
+
+        await fs.writeFile(
+          path.join(__dirname, "..", "database", "data.json"),
+          JSON.stringify(users, null, 2),
+          "utf8"
+        );
+
+        response.writeHead(200, { "Content-Type": "text/plain" });
+        response.end("Image deleted successfully");
+      } else {
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        response.end("User or photo not found");
+      }
+    } catch (err) {
+      console.error(err);
+      response.writeHead(500, { "Content-Type": "text/plain" });
+      response.end("Server error during image deletion");
+    }
   },
 };
 

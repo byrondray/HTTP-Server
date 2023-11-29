@@ -84,6 +84,14 @@
                   <span class="visually-hidden">Comments:</span
                   ><i class="fas fa-comment" aria-hidden="true"></i> 2
                 </li>
+                <li class="gallery-item-delete">
+                  <img
+                    src="/redX"
+                    alt="Delete"
+                    class="red-x"
+                    onclick="window.location.href='/delete/?username=<%= user.username %>/?photo=<%= photo %>'"
+                  />
+                </li>
               </ul>
             </div>
           </div>
