@@ -1,23 +1,31 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Open Sans", sans-serif;
   background-color: #f9f9f9;
   margin: 0;
   padding: 0;
   height: 100vh;
+  align-items: center;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 30px;
 }
 
 .main-container {
-  width: 80%;
+  max-width: 1000px;
+  padding: 40px;
+  background: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
   margin: 20px auto;
 }
 
 .users-container {
-  width: 80%;
-  margin: 0;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  justify-content: center;
 }
 
 .profile-img {
@@ -35,11 +43,16 @@ body {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
+}
+
+.user-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
 }
 
 .custom-file-upload:hover {
@@ -76,6 +89,8 @@ body {
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  display: inline-block;
+  text-align: center;
 }
 
 .button:hover {
@@ -102,5 +117,8 @@ a:hover {
   .users-container {
     width: 95%;
     margin: 10px auto;
+  }
+  h1 {
+    font-size: 2rem;
   }
 }

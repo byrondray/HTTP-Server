@@ -14,6 +14,9 @@
   <body>
     <header>
       <div class="container">
+        <a href="/" class="back-arrow">
+          <i class="fas fa-arrow-left"></i>
+        </a>
         <div class="profile">
           <div class="profile-image">
             <img src="/profilePicture/<%= user.username %>" alt="" />
@@ -69,7 +72,7 @@
           <% user.photos.forEach(photo => { %>
           <div class="gallery-item" tabindex="0">
             <img
-              src="/profileImages/<%= user.username %>/<%= photo %>"
+              src="/feedImages/<%= user.username %>/<%= photo %>"
               class="gallery-image"
               alt=""
             />
@@ -89,7 +92,8 @@
                     src="/redX"
                     alt="Delete"
                     class="red-x"
-                    onclick="window.location.href='/delete/?username=<%= user.username %>/?photo=<%= photo %>'"
+                    data-username="<%= user.username %>"
+                    data-photo="<%= photo %>"
                   />
                 </li>
               </ul>

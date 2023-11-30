@@ -94,8 +94,8 @@ const controller = {
           "utf8"
         );
 
-        response.writeHead(200, { "Content-Type": "image/png" });
-        response.end("Image uploaded successfully");
+        response.writeHead(302, { Location: `/feed?username=${username}` });
+        response.end();
       } catch (fileErr) {
         console.error(fileErr);
         response.writeHead(500, { "Content-Type": "text/plain" });
@@ -116,8 +116,8 @@ const controller = {
       const users = await processUsersData("../database/data.json");
       const user = users.find((u) => u.username === username);
 
-      if (user && user.photos.includes(photoName)) {
-        const photoIndex = user.photo.indexOf(photo);
+      if (user && user.photos.includes(photo)) {
+        const photoIndex = user.photos.indexOf(photo);
         user.photos.splice(photoIndex, 1);
 
         await fs.unlink(path.join(__dirname, "photos", username, photo));

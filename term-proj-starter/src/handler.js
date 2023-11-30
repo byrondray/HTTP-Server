@@ -60,7 +60,7 @@ const allRoutes = {
       }
     }
   },
-  "/profileImages:get": async (request, response) => {
+  "/feedImages:get": async (request, response) => {
     const photo = request.photo;
     const username = request.username;
 
@@ -131,7 +131,7 @@ function handler(request, response) {
 
     request.username = username;
     request.photo = photo;
-    return allRoutes["/delete:delete"](request, response); 
+    return allRoutes["/delete:delete"](request, response);
   }
 
   if (
@@ -148,10 +148,7 @@ function handler(request, response) {
     return allRoutes["/profilePicture:get"](request, response);
   }
 
-  if (
-    pathname.startsWith("/profileImages/") &&
-    method.toLowerCase() === "get"
-  ) {
+  if (pathname.startsWith("/feedImages/") && method.toLowerCase() === "get") {
     const username = pathname.split("/")[2];
     const photo = pathname.split("/")[3];
     if (!photo) {
@@ -161,7 +158,7 @@ function handler(request, response) {
     }
     request.username = username;
     request.photo = photo;
-    return allRoutes["/profileImages:get"](request, response);
+    return allRoutes["/feedImages:get"](request, response);
   }
 
   const key = `${pathname}:${method.toLowerCase()}`;
