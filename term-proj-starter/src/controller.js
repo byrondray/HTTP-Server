@@ -1,11 +1,9 @@
 const fs = require("fs/promises");
 const { DEFAULT_HEADER } = require("./util/util");
 const path = require("path");
-var qs = require("querystring");
 const {
   readJsonFile,
   getQueryParam,
-  processUsersData,
 } = require("./controllerHelper.js");
 const ejs = require("ejs");
 const { formidable } = require("formidable");
@@ -36,7 +34,7 @@ const controller = {
         "username",
         request.headers.host
       );
-      const users = await processUsersData("../database/data.json");
+      const users = await readJsonFile("../database/data.json");
       const user = users.find((u) => u.username === username);
 
       if (!user) {
@@ -81,7 +79,7 @@ const controller = {
       try {
         await fs.rename(oldPath, newPath);
 
-        const users = await processUsersData("../database/data.json");
+        const users = await readJsonFile("../database/data.json");
 
         const user = users.find((u) => u.username === username);
         if (user) {
@@ -113,7 +111,7 @@ const controller = {
 
     console.log(username, photo);
     try {
-      const users = await processUsersData("../database/data.json");
+      const users = await readJsonFile("../database/data.json");
       const user = users.find((u) => u.username === username);
 
       if (user && user.photos.includes(photo)) {
@@ -139,6 +137,12 @@ const controller = {
       response.writeHead(500, { "Content-Type": "text/plain" });
       response.end("Server error during image deletion");
     }
+  },
+  getSettings: async (request, response) => {
+    const str = await ejs.renderFile(path.join(__dirname, "settings.ejs"));
+
+    response.writeHead(200, { "Content-Type": "text/html" });
+    response.end(str);
   },
 };
 

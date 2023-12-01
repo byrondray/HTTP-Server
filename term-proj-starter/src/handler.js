@@ -3,7 +3,6 @@ const { DEFAULT_HEADER } = require("./util/util.js");
 const controller = require("./controller");
 const { createReadStream } = require("fs");
 const path = require("path");
-const fs = require("fs/promises");
 
 const allRoutes = {
   "/profilePicture:get": async (request, response) => {
@@ -16,70 +15,68 @@ const allRoutes = {
       "profile.jpeg"
     );
 
-    try {
-      const profilePictures = await fs.readFile(profilePicturePath);
-      response.writeHead(200, { "Content-Type": "image/jpeg" });
-      response.end(profilePictures);
-    } catch (err) {
+    const profilePictureStream = createReadStream(profilePicturePath);
+
+    response.writeHead(200, { "Content-Type": "image/jpeg" });
+
+    profilePictureStream.pipe(response);
+
+    profilePictureStream.on("error", (err) => {
       console.error(`Error reading file: ${err.message}`);
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("File not found");
-    }
+    });
   },
-  "/homepageHelper.css:get": async (request, response) => {
+  "/homepageHelper.css:get": (request, response) => {
     const cssFilePath = path.join(__dirname, "homepageHelper.css");
 
-    try {
-      const css = await fs.readFile(cssFilePath);
+    const cssStream = createReadStream(cssFilePath);
+
+    cssStream.on("open", () => {
       response.writeHead(200, { "Content-Type": "text/css" });
-      response.end(css);
-    } catch (err) {
-      if (err) {
-        response.writeHead(404, DEFAULT_HEADER);
-        response.end("File not found");
-      } else {
-        response.writeHead(200, { "Content-Type": "text/css" });
-        response.end(css);
-      }
-    }
+      cssStream.pipe(response);
+    });
+
+    cssStream.on("error", (err) => {
+      console.error(`Error reading file: ${err.message}`);
+      response.writeHead(404);
+      response.end("File not found");
+    });
   },
-  "/getFeed.css:get": async (request, response) => {
+  "/getFeed.css:get": (request, response) => {
     const cssFilePath = path.join(__dirname, "getFeed.css");
 
-    try {
-      const css = await fs.readFile(cssFilePath);
+    const cssStream = createReadStream(cssFilePath);
+
+    cssStream.on("open", () => {
       response.writeHead(200, { "Content-Type": "text/css" });
-      response.end(css);
-    } catch (err) {
-      if (err) {
-        response.writeHead(404, DEFAULT_HEADER);
-        response.end("File not found");
-      } else {
-        response.writeHead(200, { "Content-Type": "text/css" });
-        response.end(css);
-      }
-    }
+      cssStream.pipe(response);
+    });
+
+    cssStream.on("error", (err) => {
+      console.error(`Error reading file: ${err.message}`);
+      response.writeHead(404);
+      response.end("File not found");
+    });
   },
-  "/feedImages:get": async (request, response) => {
+  "/feedImages:get": (request, response) => {
     const photo = request.photo;
     const username = request.username;
 
     const profileImagePath = path.join(__dirname, "photos", username, photo);
 
-    try {
-      const images = await fs.readFile(profileImagePath);
+    const imageStream = createReadStream(profileImagePath);
+
+    imageStream.on("open", () => {
       response.writeHead(200, { "Content-Type": "image/png" });
-      response.end(images);
-    } catch (err) {
-      if (err) {
-        console.error(`Error reading file: ${err.message}`);
-        response.writeHead(404, { "Content-Type": "text/plain" });
-        response.end("File not found");
-      } else {
-        response.writeHead(200, { "Content-Type": "image/png" });
-        response.end(images);
-      }
-    }
+      imageStream.pipe(response);
+    });
+
+    imageStream.on("error", (err) => {
+      console.error(`Error reading file: ${err.message}`);
+      response.writeHead(404, { "Content-Type": "text/plain" });
+      response.end("File not found");
+    });
   },
   "/:get": (request, response) => {
     controller.getHomePage(request, response);
@@ -93,17 +90,24 @@ const allRoutes = {
   "/feed:get": (request, response) => {
     controller.getFeed(request, response);
   },
-  "/redX:get": async (request, response) => {
+  "/settings:get": async (request, response) => {
+    controller.getSettings(request, response);
+  },
+  "/redX:get": (request, response) => {
     const redXPath = path.join(__dirname, "..", "..", "assets", "redX.png");
-    try {
-      const redX = await fs.readFile(redXPath);
-      response.writeHead(200, { "Content-Type": "image/jpeg" });
-      response.end(redX);
-    } catch (err) {
+
+    const redXStream = createReadStream(redXPath);
+
+    redXStream.on("open", () => {
+      response.writeHead(200, { "Content-Type": "image/png" });
+      redXStream.pipe(response);
+    });
+
+    redXStream.on("error", (err) => {
       console.error(`Error reading file: ${err.message}`);
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("File not found");
-    }
+    });
   },
   // 404 routes
   default: (request, response) => {

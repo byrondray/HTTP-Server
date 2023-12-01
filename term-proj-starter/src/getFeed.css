@@ -11,7 +11,7 @@
 body {
   font-family: "Open Sans", Arial, sans-serif;
   min-height: 100vh;
-  background-color: #fafafa;
+  background-color: #f2f2f2;
   color: #262626;
   padding-bottom: 3rem;
 }
@@ -374,4 +374,15 @@ img {
 
 .back-arrow:hover {
   font-size: 45px;
+}
+
+.settings-icon {
+  text-decoration: none;
+  color: #000000;
+}
+
+.settings-icon:hover,
+.settings-icon:focus {
+  text-decoration: none;
+  color: #000000;
 }

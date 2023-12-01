@@ -1,6 +1,13 @@
+:root {
+  --button-color: #5cdb95;
+  --button-hover-color: #379683;
+  --font-family-main: "Open Sans", sans-serif;
+  --round-corner: 50%;
+}
+
 body {
-  font-family: "Open Sans", sans-serif;
-  background-color: #f9f9f9;
+  font-family: var(--font-family-main);
+  background-color: #f2f2f2;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -29,7 +36,7 @@ h1 {
 }
 
 .profile-img {
-  border-radius: 50%;
+  border-radius: var(--round-corner);
   width: 70px;
   height: 70px;
   object-fit: cover;
@@ -80,7 +87,7 @@ h1 {
 }
 
 .button {
-  background: #5cdb95;
+  background: var(--button-color);
   width: 100px;
   border: none;
   border-radius: 5px;
@@ -94,12 +101,11 @@ h1 {
 }
 
 .button:hover {
-  background-color: #379683;
+  background-color: var(--button-hover-color);
 }
 
 h1 {
   margin-top: 20px;
-  color: #05386b;
   text-align: center;
 }
 
