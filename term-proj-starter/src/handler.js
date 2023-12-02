@@ -93,6 +93,9 @@ const allRoutes = {
   "/settings:get": async (request, response) => {
     controller.getSettings(request, response);
   },
+  "/gallery:get": (request, response) => {
+    controller.getGallery(request, response);
+  },
   "/redX:get": (request, response) => {
     const redXPath = path.join(__dirname, "..", "..", "assets", "redX.png");
 
@@ -109,7 +112,6 @@ const allRoutes = {
       response.end("File not found");
     });
   },
-  // 404 routes
   default: (request, response) => {
     response.writeHead(404, DEFAULT_HEADER);
     createReadStream(path.join(__dirname, "views", "404.html"), "utf8").pipe(
@@ -126,6 +128,12 @@ function handler(request, response) {
     const username = pathname.split("/")[2];
     request.username = username;
     return allRoutes["/upload:post"](request, response);
+  }
+
+  if (pathname.startsWith("/gallery/") && method.toLowerCase() === "get") {
+    const username = pathname.split("/")[2];
+    request.username = username;
+    return allRoutes["/gallery:post"](request, response);
   }
 
   if (pathname.startsWith("/delete/") && method.toLowerCase() === "delete") {

@@ -1,10 +1,7 @@
 const fs = require("fs/promises");
 const { DEFAULT_HEADER } = require("./util/util");
 const path = require("path");
-const {
-  readJsonFile,
-  getQueryParam,
-} = require("./controllerHelper.js");
+const { readJsonFile, getQueryParam } = require("./controllerHelper.js");
 const ejs = require("ejs");
 const { formidable } = require("formidable");
 
@@ -143,6 +140,34 @@ const controller = {
 
     response.writeHead(200, { "Content-Type": "text/html" });
     response.end(str);
+  },
+  getGallery: async (request, response) => {
+    try {
+      const username = getQueryParam(
+        request.url,
+        "username",
+        request.headers.host
+      );
+      const users = await readJsonFile("../database/data.json");
+      const user = users.find((u) => u.username === username);
+
+      if (!user) {
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        response.end("User not found");
+        return;
+      }
+
+      const str = await ejs.renderFile(path.join(__dirname, "gallery.ejs"), {
+        user: user,
+      });
+
+      response.writeHead(200, { "Content-Type": "text/html" });
+      response.end(str);
+    } catch (err) {
+      console.error("Error:", err);
+      response.writeHead(500, DEFAULT_HEADER);
+      response.end("Server error");
+    }
   },
 };
 
