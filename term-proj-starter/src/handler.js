@@ -9,81 +9,39 @@ const {
   handleDelete,
   handleProfilePicture,
   handleFeedImages,
+  streamFile,
+  handleStreamError,
 } = require("./handlerHelper");
 
 const allRoutes = {
-  "/profilePicture:get": async (request, response) => {
-    const username = request.username;
-
+  "/profilePicture:get": (request, response) => {
     const profilePicturePath = path.join(
       __dirname,
       "photos",
-      username,
+      request.username,
       "profile.jpeg"
     );
-
-    const profilePictureStream = createReadStream(profilePicturePath);
-
-    response.writeHead(200, { "Content-Type": "image/jpeg" });
-
-    profilePictureStream.pipe(response);
-
-    profilePictureStream.on("error", (err) => {
-      console.error(`Error reading file: ${err.message}`);
-      response.writeHead(404, { "Content-Type": "text/plain" });
-      response.end("File not found");
-    });
+    streamFile(profilePicturePath, response, "image/jpeg");
   },
+
   "/homepageHelper.css:get": (request, response) => {
     const cssFilePath = path.join(__dirname, "homepageHelper.css");
-
-    const cssStream = createReadStream(cssFilePath);
-
-    cssStream.on("open", () => {
-      response.writeHead(200, { "Content-Type": "text/css" });
-      cssStream.pipe(response);
-    });
-
-    cssStream.on("error", (err) => {
-      console.error(`Error reading file: ${err.message}`);
-      response.writeHead(404);
-      response.end("File not found");
-    });
+    streamFile(cssFilePath, response, "text/css");
   },
+
   "/getFeed.css:get": (request, response) => {
     const cssFilePath = path.join(__dirname, "getFeed.css");
-
-    const cssStream = createReadStream(cssFilePath);
-
-    cssStream.on("open", () => {
-      response.writeHead(200, { "Content-Type": "text/css" });
-      cssStream.pipe(response);
-    });
-
-    cssStream.on("error", (err) => {
-      console.error(`Error reading file: ${err.message}`);
-      response.writeHead(404);
-      response.end("File not found");
-    });
+    streamFile(cssFilePath, response, "text/css");
   },
+
   "/feedImages:get": (request, response) => {
-    const photo = request.photo;
-    const username = request.username;
-
-    const profileImagePath = path.join(__dirname, "photos", username, photo);
-
-    const imageStream = createReadStream(profileImagePath);
-
-    imageStream.on("open", () => {
-      response.writeHead(200, { "Content-Type": "image/png" });
-      imageStream.pipe(response);
-    });
-
-    imageStream.on("error", (err) => {
-      console.error(`Error reading file: ${err.message}`);
-      response.writeHead(404, { "Content-Type": "text/plain" });
-      response.end("File not found");
-    });
+    const profileImagePath = path.join(
+      __dirname,
+      "photos",
+      request.username,
+      request.photo
+    );
+    streamFile(profileImagePath, response, "image/png");
   },
   "/:get": (request, response) => {
     controller.getHomePage(request, response);
@@ -105,25 +63,13 @@ const allRoutes = {
   },
   "/redX:get": (request, response) => {
     const redXPath = path.join(__dirname, "..", "..", "assets", "redX.png");
-
-    const redXStream = createReadStream(redXPath);
-
-    redXStream.on("open", () => {
-      response.writeHead(200, { "Content-Type": "image/png" });
-      redXStream.pipe(response);
-    });
-
-    redXStream.on("error", (err) => {
-      console.error(`Error reading file: ${err.message}`);
-      response.writeHead(404, { "Content-Type": "text/plain" });
-      response.end("File not found");
-    });
+    streamFile(redXPath, response, "image/png");
   },
+
   default: (request, response) => {
     response.writeHead(404, DEFAULT_HEADER);
-    createReadStream(path.join(__dirname, "views", "404.html"), "utf8").pipe(
-      response
-    );
+    const errorPagePath = path.join(__dirname, "views", "404.html");
+    streamFile(errorPagePath, response, "text/html");
   },
 };
 

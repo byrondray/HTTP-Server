@@ -1,4 +1,5 @@
 const parse = require("url").parse;
+const { createReadStream } = require("fs");
 
 function parseRequest(request) {
   const { url, method } = request;
@@ -53,6 +54,29 @@ function handleFeedImages(request, response, allRoutes) {
   return allRoutes["/feedImages:get"](request, response);
 }
 
+const streamFile = (filePath, response, contentType) => {
+  const stream = createReadStream(filePath);
+
+  stream.on("open", () => {
+    response.writeHead(200, { "Content-Type": contentType });
+    stream.pipe(response);
+  });
+
+  stream.on("error", (err) => {
+    console.error(`Error reading file: ${err.message}`);
+    response.writeHead(404, { "Content-Type": "text/plain" });
+    response.end("File not found");
+  });
+};
+
+const handleStreamError = (stream, response) => {
+  stream.on("error", (err) => {
+    console.error(`Error reading file: ${err.message}`);
+    response.writeHead(404, { "Content-Type": "text/plain" });
+    response.end("File not found");
+  });
+};
+
 module.exports = {
   parseRequest,
   handleUpload,
@@ -60,4 +84,6 @@ module.exports = {
   handleDelete,
   handleProfilePicture,
   handleFeedImages,
+  streamFile,
+  handleStreamError,
 };
