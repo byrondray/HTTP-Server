@@ -1,8 +1,15 @@
-const { parse } = require("url");
 const { DEFAULT_HEADER } = require("./util/util.js");
 const controller = require("./controller");
 const { createReadStream } = require("fs");
 const path = require("path");
+const {
+  parseRequest,
+  handleUpload,
+  handleGallery,
+  handleDelete,
+  handleProfilePicture,
+  handleFeedImages,
+} = require("./handlerHelper");
 
 const allRoutes = {
   "/profilePicture:get": async (request, response) => {
@@ -90,7 +97,7 @@ const allRoutes = {
   "/feed:get": (request, response) => {
     controller.getFeed(request, response);
   },
-  "/settings:get": async (request, response) => {
+  "/settings:get": (request, response) => {
     controller.getSettings(request, response);
   },
   "/gallery:get": (request, response) => {
@@ -120,68 +127,40 @@ const allRoutes = {
   },
 };
 
-function handler(request, response) {
-  const { url, method } = request;
-  const { pathname } = parse(url, true);
+const handler = (request, response) => {
+  const { pathname, method } = parseRequest(request);
+  request.pathname = pathname;
+  request.method = method;
 
-  if (pathname.startsWith("/upload/") && method.toLowerCase() === "post") {
-    const username = pathname.split("/")[2];
-    request.username = username;
-    return allRoutes["/upload:post"](request, response);
+  if (pathname.startsWith("/upload/") && method === "post") {
+    return handleUpload(request, response, allRoutes);
   }
 
-  if (pathname.startsWith("/gallery/") && method.toLowerCase() === "get") {
-    const username = pathname.split("/")[2];
-    request.username = username;
-    return allRoutes["/gallery:post"](request, response);
+  if (pathname.startsWith("/gallery/") && method === "get") {
+    return handleGallery(request, response, allRoutes);
   }
 
-  if (pathname.startsWith("/delete/") && method.toLowerCase() === "delete") {
-    const segments = pathname.split("/");
-    const username = segments[2];
-    const photo = segments[3];
-
-    request.username = username;
-    request.photo = photo;
-    return allRoutes["/delete:delete"](request, response);
+  if (pathname.startsWith("/delete/") && method === "delete") {
+    return handleDelete(request, response, allRoutes);
   }
 
-  if (
-    pathname.startsWith("/profilePicture/") &&
-    method.toLowerCase() === "get"
-  ) {
-    const username = pathname.split("/")[2];
-    if (!username) {
-      response.writeHead(400, { "Content-Type": "text/plain" });
-      response.end("Username is missing in the URL");
-      return;
-    }
-    request.username = username;
-    return allRoutes["/profilePicture:get"](request, response);
+  if (pathname.startsWith("/profilePicture/") && method === "get") {
+    return handleProfilePicture(request, response, allRoutes);
   }
 
-  if (pathname.startsWith("/feedImages/") && method.toLowerCase() === "get") {
-    const username = pathname.split("/")[2];
-    const photo = pathname.split("/")[3];
-    if (!photo) {
-      response.writeHead(400, { "Content-Type": "text/plain" });
-      response.end("Username is missing in the URL");
-      return;
-    }
-    request.username = username;
-    request.photo = photo;
-    return allRoutes["/feedImages:get"](request, response);
+  if (pathname.startsWith("/feedImages/") && method === "get") {
+    return handleFeedImages(request, response, allRoutes);
   }
 
-  const key = `${pathname}:${method.toLowerCase()}`;
+  const key = `${pathname}:${method}`;
   const chosen = allRoutes[key] || allRoutes.default;
 
   return Promise.resolve(chosen(request, response)).catch(
     handlerError(response)
   );
-}
+};
 
-function handlerError(response) {
+const handlerError = (response) => {
   return (error) => {
     console.log("Something bad has  happened**", error.stack);
     response.writeHead(500, DEFAULT_HEADER);
@@ -193,6 +172,6 @@ function handlerError(response) {
 
     return response.end();
   };
-}
+};
 
 module.exports = handler;

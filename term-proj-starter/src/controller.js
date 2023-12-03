@@ -106,7 +106,6 @@ const controller = {
     );
     const photo = getQueryParam(request.url, "photo", request.headers.host);
 
-    console.log(username, photo);
     try {
       const users = await readJsonFile("../database/data.json");
       const user = users.find((u) => u.username === username);

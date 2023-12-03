@@ -129,7 +129,7 @@
             if (container) {
               container.innerHTML = html;
             } else {
-              throw new Error("The gallery element was not found.");
+              throw new Error("Gallery was not found.");
             }
           })
           .catch((err) => console.error("Error fetching feed data:", err));
