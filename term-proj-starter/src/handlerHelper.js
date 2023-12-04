@@ -69,14 +69,6 @@ const streamFile = (filePath, response, contentType) => {
   });
 };
 
-const handleStreamError = (stream, response) => {
-  stream.on("error", (err) => {
-    console.error(`Error reading file: ${err.message}`);
-    response.writeHead(404, { "Content-Type": "text/plain" });
-    response.end("File not found");
-  });
-};
-
 module.exports = {
   parseRequest,
   handleUpload,
@@ -85,5 +77,4 @@ module.exports = {
   handleProfilePicture,
   handleFeedImages,
   streamFile,
-  handleStreamError,
 };

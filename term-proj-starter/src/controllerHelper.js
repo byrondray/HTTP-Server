@@ -88,5 +88,5 @@ module.exports = {
   processUploadedFile,
   sendErrorResponse,
   sendRedirectResponse,
-  deletePhoto
+  deletePhoto,
 };

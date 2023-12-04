@@ -1,6 +1,5 @@
 const { DEFAULT_HEADER } = require("./util/util.js");
 const controller = require("./controller");
-const { createReadStream } = require("fs");
 const path = require("path");
 const {
   parseRequest,
@@ -10,7 +9,6 @@ const {
   handleProfilePicture,
   handleFeedImages,
   streamFile,
-  handleStreamError,
 } = require("./handlerHelper");
 
 const allRoutes = {
@@ -23,17 +21,14 @@ const allRoutes = {
     );
     streamFile(profilePicturePath, response, "image/jpeg");
   },
-
   "/homepageHelper.css:get": (request, response) => {
     const cssFilePath = path.join(__dirname, "homepageHelper.css");
     streamFile(cssFilePath, response, "text/css");
   },
-
   "/getFeed.css:get": (request, response) => {
     const cssFilePath = path.join(__dirname, "getFeed.css");
     streamFile(cssFilePath, response, "text/css");
   },
-
   "/feedImages:get": (request, response) => {
     const profileImagePath = path.join(
       __dirname,
