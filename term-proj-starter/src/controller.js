@@ -13,6 +13,7 @@ const {
   sendRedirectResponse,
   deletePhoto,
 } = require("./controllerHelper.js");
+const { streamFile } = require("./handlerHelper");
 
 const controller = {
   getHomePage: async (request, response) => {
@@ -29,7 +30,32 @@ const controller = {
       response.end("Server error");
     }
   },
-
+  getHomepageCss: async (request, response) => {
+    const cssFilePath = path.join(__dirname, "homepageHelper.css");
+    streamFile(cssFilePath, response, "text/css");
+  },
+  getFeedCss: async (request, response) => {
+    const cssFilePath = path.join(__dirname, "getFeed.css");
+    streamFile(cssFilePath, response, "text/css");
+  },
+  getProfilePicture: async (request, response) => {
+    const profilePicturePath = path.join(
+      __dirname,
+      "photos",
+      request.username,
+      "profile.jpeg"
+    );
+    streamFile(profilePicturePath, response, "image/jpeg");
+  },
+  feedImages: async (request, response) => {
+    const profileImagePath = path.join(
+      __dirname,
+      "photos",
+      request.username,
+      request.photo
+    );
+    streamFile(profileImagePath, response, "image/png");
+  },
   getFeed: async (request, response) => {
     try {
       const username = getQueryParam(
@@ -111,7 +137,7 @@ const controller = {
   },
   getSettings: async (request, response) => {
     try {
-      const str = await renderTemplate("settings.ejs", {}); 
+      const str = await renderTemplate("settings.ejs", {});
 
       response.writeHead(200, { "Content-Type": "text/html" });
       response.end(str);
@@ -146,6 +172,10 @@ const controller = {
       response.writeHead(500, DEFAULT_HEADER);
       response.end("Server error");
     }
+  },
+  redX: async (request, response) => {
+    const redXPath = path.join(__dirname, "..", "..", "assets", "redX.png");
+    streamFile(redXPath, response, "image/png");
   },
 };
 

@@ -13,30 +13,16 @@ const {
 
 const allRoutes = {
   "/profilePicture:get": (request, response) => {
-    const profilePicturePath = path.join(
-      __dirname,
-      "photos",
-      request.username,
-      "profile.jpeg"
-    );
-    streamFile(profilePicturePath, response, "image/jpeg");
+    controller.getProfilePicture(request, response);
   },
   "/homepageHelper.css:get": (request, response) => {
-    const cssFilePath = path.join(__dirname, "homepageHelper.css");
-    streamFile(cssFilePath, response, "text/css");
+    controller.getHomepageCss(request, response);
   },
   "/getFeed.css:get": (request, response) => {
-    const cssFilePath = path.join(__dirname, "getFeed.css");
-    streamFile(cssFilePath, response, "text/css");
+    controller.getFeedCss(request, response);
   },
   "/feedImages:get": (request, response) => {
-    const profileImagePath = path.join(
-      __dirname,
-      "photos",
-      request.username,
-      request.photo
-    );
-    streamFile(profileImagePath, response, "image/png");
+    controller.feedImages(request, response);
   },
   "/:get": (request, response) => {
     controller.getHomePage(request, response);
@@ -57,8 +43,7 @@ const allRoutes = {
     controller.getGallery(request, response);
   },
   "/redX:get": (request, response) => {
-    const redXPath = path.join(__dirname, "..", "..", "assets", "redX.png");
-    streamFile(redXPath, response, "image/png");
+    controller.redX(request, response);
   },
 
   default: (request, response) => {

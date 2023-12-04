@@ -66,7 +66,7 @@ const sendErrorResponse = (response, message) => {
 };
 
 const sendRedirectResponse = (response, location) => {
-  response.writeHead(302, { Location: location });
+  response.writeHead(301, { Location: location });
   response.end();
 };
 
