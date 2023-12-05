@@ -1,4 +1,5 @@
 const { DEFAULT_HEADER } = require("./util/util.js");
+const { streamFile } = require("./controllerHelper.js");
 const controller = require("./controller");
 const path = require("path");
 const {
@@ -18,6 +19,9 @@ const allRoutes = {
   },
   "/getFeed.css:get": (request, response) => {
     controller.getFeedCss(request, response);
+  },
+  "/refreshFeed:get": (request, response) => {
+    controller.refreshFeed(request, response);
   },
   "/feedImages:get": (request, response) => {
     controller.feedImages(request, response);

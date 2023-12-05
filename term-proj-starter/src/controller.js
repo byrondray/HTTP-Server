@@ -8,9 +8,7 @@ const {
   renderTemplate,
   initializeForm,
   processUploadedFile,
-  sendErrorResponse,
   sendRedirectResponse,
-  deletePhoto,
   streamFile,
   getContentType,
   checkFileExists,
@@ -101,6 +99,10 @@ const controller = {
       response.writeHead(500, DEFAULT_HEADER);
       response.end("Server error");
     }
+  },
+  refreshFeed: async (request, response) => {
+    const scriptPath = path.join(__dirname, "getFeedHelper.js");
+    streamFile(scriptPath, response, "application/javascript");
   },
 
   uploadImages: async (request, response) => {

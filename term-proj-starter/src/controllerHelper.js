@@ -61,11 +61,6 @@ const processUploadedFile = async (files, username) => {
   return filename;
 };
 
-const sendErrorResponse = (response, message) => {
-  response.writeHead(500, { "Content-Type": "text/plain" });
-  response.end(message);
-};
-
 const sendRedirectResponse = (response, location) => {
   response.writeHead(301, { Location: location });
   response.end();
@@ -127,7 +122,6 @@ module.exports = {
   renderTemplate,
   initializeForm,
   processUploadedFile,
-  sendErrorResponse,
   sendRedirectResponse,
   deletePhoto,
   streamFile,
