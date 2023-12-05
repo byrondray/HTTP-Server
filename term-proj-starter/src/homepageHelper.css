@@ -5,18 +5,11 @@
   --round-corner: 50%;
 }
 
-body {
-  font-family: var(--font-family-main);
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  align-items: center;
-}
-
 h1 {
   font-size: 3rem;
   margin-bottom: 30px;
+  text-align: left;
+  margin-left: 30px;
 }
 
 .main-container {
@@ -86,29 +79,6 @@ h1 {
   color: #333;
 }
 
-.button {
-  background: var(--button-color);
-  width: 100px;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  display: inline-block;
-  text-align: center;
-}
-
-.button:hover {
-  background-color: var(--button-hover-color);
-}
-
-h1 {
-  margin-top: 20px;
-  text-align: center;
-}
-
 a {
   text-decoration: none;
   color: #379683;
@@ -116,6 +86,17 @@ a {
 
 a:hover {
   color: #5cdb95;
+}
+
+.logo {
+  height: 200px;
+  width: 200px;
+}
+
+.logo-container {
+  text-align: left;
+  margin-top: 50px;
+  margin-left: 50px;
 }
 
 @media (max-width: 600px) {
@@ -126,5 +107,9 @@ a:hover {
   }
   h1 {
     font-size: 2rem;
+  }
+  .profile-img {
+    width: 50px;
+    height: 50px;
   }
 }

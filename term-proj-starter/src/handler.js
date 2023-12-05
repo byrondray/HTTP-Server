@@ -41,6 +41,12 @@ const allRoutes = {
   "/redX:get": (request, response) => {
     controller.redX(request, response);
   },
+  "/instagramLogo:get": (request, response) => {
+    controller.instagramLogo(request, response);
+  },
+  "/global.css:get": (request, response) => {
+    controller.globalCss(request, response);
+  },
 
   default: (request, response) => {
     response.writeHead(404, DEFAULT_HEADER);

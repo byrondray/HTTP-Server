@@ -1,0 +1,78 @@
+:root {
+  --button-color: #5cdb95;
+  --button-hover-color: #379683;
+  --font-family-main: "Open Sans", sans-serif;
+  --round-corner: 50%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-main);
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  align-items: center;
+  color: #262626;
+}
+
+img {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: #379683;
+}
+
+a:hover {
+  color: #5cdb95;
+}
+
+.button,
+.btn {
+  background: var(--button-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover,
+.btn:focus {
+  background-color: var(--button-hover-color);
+  outline: 0.5rem auto #4d90fe;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+@media (max-width: 600px) {
+  .button,
+  .btn {
+    width: auto;
+    padding: 8px 10px;
+  }
+}
+
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
+}

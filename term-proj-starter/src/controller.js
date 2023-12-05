@@ -36,6 +36,10 @@ const controller = {
     const cssFilePath = path.join(__dirname, "getFeed.css");
     streamFile(cssFilePath, response, "text/css");
   },
+  globalCss: async (request, response) => {
+    const cssFilePath = path.join(__dirname, "global.css");
+    streamFile(cssFilePath, response, "text/css");
+  },
   getProfilePicture: async (request, response) => {
     const profilePicturePath = path.join(
       __dirname,
@@ -156,6 +160,16 @@ const controller = {
   redX: async (request, response) => {
     const redXPath = path.join(__dirname, "..", "..", "assets", "redX.png");
     streamFile(redXPath, response, "image/png");
+  },
+  instagramLogo: async (request, response) => {
+    const instagramLogoPath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "assets",
+      "instagram-logo.png"
+    );
+    streamFile(instagramLogoPath, response, "image/png");
   },
 };
 
