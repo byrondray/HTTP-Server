@@ -9,15 +9,7 @@
       "following": 30
     },
     "profile": "profile.jpeg",
-    "photos": [
-      "pic1.png",
-      "pic2.png",
-      "LogoVariations.jpg",
-      "apple-juice.jpg",
-      "HavenHotpotMockup.jpg",
-      "calpis.webp",
-      "bubble-tea.png"
-    ]
+    "photos": ["pic1.png", "pic2.png"]
   },
   {
     "id": "cb506c7d-1c2f-4ce8-a56f-d45f16bf34cf",
@@ -29,12 +21,7 @@
       "following": 30
     },
     "profile": "profile.jpeg",
-    "photos": [
-      "pic1.png",
-      "pic2.png",
-      "WireframeLogoWhite.png",
-      "LogoVariations.jpg"
-    ]
+    "photos": ["pic1.png", "pic2.png"]
   },
   {
     "id": "90bf10a3-c9fb-406a-a35a-3e4a8db0fbf8",
@@ -46,9 +33,6 @@
       "following": 30
     },
     "profile": "profile.jpeg",
-    "photos": [
-      "pic1.png",
-      "pic2.png"
-    ]
+    "photos": ["pic1.png", "pic2.png"]
   }
 ]

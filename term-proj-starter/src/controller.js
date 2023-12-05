@@ -3,7 +3,6 @@ const path = require("path");
 const {
   readJsonFile,
   getQueryParam,
-  writeUserData,
   findUserByUsername,
   renderTemplate,
   initializeForm,
