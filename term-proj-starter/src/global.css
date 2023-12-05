@@ -2,7 +2,6 @@
   --button-color: #a1d6e2;
   --button-hover-color: #1995ad;
   --font-family-main: "Roboto", sans-serif;
-  --round-corner: 50%;
 }
 
 *,
@@ -27,18 +26,18 @@ img {
 
 a {
   text-decoration: none;
-  color: #379683;
+  color: var(--button-color);
 }
 
 a:hover {
-  color: #5cdb95;
+  color: var(--button-hover-color);
 }
 
 .button,
 .btn {
   background: var(--button-color);
   border: none;
-  border-radius: 5px;
+  border-radius: 8%;
   padding: 10px 15px;
   color: white;
   cursor: pointer;

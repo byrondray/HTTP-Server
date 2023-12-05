@@ -43,8 +43,8 @@ body {
 
 .profile-image img {
   border-radius: 50%;
-  height: 200px;
-  width: 200px;
+  height: 20rem;
+  width: 20rem;
 }
 
 .profile-user-settings,
@@ -198,7 +198,7 @@ body {
   }
 
   .profile-image img {
-    width: 150px;
+    width: 15rem;
   }
 
   .profile-user-settings {
@@ -320,28 +320,28 @@ body {
 
 .red-x {
   position: absolute;
-  top: 10px;
-  right: 45px;
-  width: 40px;
-  height: 40px;
+  top: 1rem;
+  right: 4.5rem;
+  width: 4rem;
+  height: 4rem;
 }
 
 .red-x:hover {
-  width: 45px;
-  height: 45px;
+  width: 4.5rem;
+  height: 4.5rem;
 }
 
 .back-arrow {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 2rem;
+  right: 2rem;
   text-decoration: none;
   color: #000;
-  font-size: 40px;
-  margin-right: 20px;
+  font-size: 4rem;
+  margin-right: 2rem;
 }
 
 .back-arrow:hover {
-  font-size: 45px;
+  font-size: 4.5rem;
   color: var(--button-hover-color);
 }
