@@ -5,10 +5,9 @@
 }
 
 h1 {
-  font-size: 4rem;
-  margin-bottom: 3rem;
+  font-size: 5.5rem;
   text-align: left;
-  margin-left: 3rem;
+  margin: 1rem 0 3rem 5rem;
 }
 
 .content-container {
@@ -22,7 +21,7 @@ h1 {
   background: #ffffff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
-  margin: 15rem 0 0 2rem;
+  margin: 10rem 0 0 5.5rem;
   align-items: center;
   flex-grow: 1;
 }
