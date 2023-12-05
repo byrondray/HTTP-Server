@@ -9,11 +9,8 @@
         <% users.forEach(user => { %>
         <div class="user-card">
           <div class="profile-image-container">
-            <img
-              src="/profilePicture/<%= user.username %>"
-              alt="<%= user.username %>'s Profile Picture"
-              class="profile-img"
-            />
+            <img src="/profilePicture/<%= user.username %>/<%= user.profile %>"
+            alt="<%= user.username %>'s Profile Picture" class="profile-img" />
           </div>
           <div class="user-info">
             <a href="/feed?username=<%= user.username %>">

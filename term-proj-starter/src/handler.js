@@ -5,10 +5,8 @@ const {
   parseRequest,
   handleUpload,
   handleGallery,
-  handleDelete,
   handleProfilePicture,
   handleFeedImages,
-  streamFile,
 } = require("./handlerHelper");
 
 const allRoutes = {
@@ -30,14 +28,8 @@ const allRoutes = {
   "/upload:post": (request, response) => {
     controller.uploadImages(request, response);
   },
-  "/delete:delete": (request, response) => {
-    controller.deleteImage(request, response);
-  },
   "/feed:get": (request, response) => {
     controller.getFeed(request, response);
-  },
-  "/settings:get": (request, response) => {
-    controller.getSettings(request, response);
   },
   "/gallery:get": (request, response) => {
     controller.getGallery(request, response);

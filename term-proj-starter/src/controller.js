@@ -1,4 +1,3 @@
-const fs = require("fs/promises");
 const { DEFAULT_HEADER } = require("./util/util");
 const path = require("path");
 const {
@@ -12,8 +11,10 @@ const {
   sendErrorResponse,
   sendRedirectResponse,
   deletePhoto,
+  streamFile,
+  getContentType,
+  checkFileExists,
 } = require("./controllerHelper.js");
-const { streamFile } = require("./handlerHelper");
 
 const controller = {
   getHomePage: async (request, response) => {
@@ -43,9 +44,17 @@ const controller = {
       __dirname,
       "photos",
       request.username,
-      "profile.jpeg"
+      request.profile
     );
-    streamFile(profilePicturePath, response, "image/jpeg");
+    try {
+      const contentType = getContentType(profilePicturePath);
+
+      streamFile(profilePicturePath, response, contentType);
+    } catch (error) {
+      console.error("Error accessing file:", error);
+      response.writeHead(404);
+      response.end("Profile picture not found.");
+    }
   },
   feedImages: async (request, response) => {
     const profileImagePath = path.join(
@@ -54,7 +63,18 @@ const controller = {
       request.username,
       request.photo
     );
-    streamFile(profileImagePath, response, "image/png");
+
+    if (!(await checkFileExists(profileImagePath))) {
+      response.writeHead(404);
+      response.end();
+      return;
+    }
+
+    await streamFile(
+      profileImagePath,
+      response,
+      getContentType(profileImagePath)
+    );
   },
   getFeed: async (request, response) => {
     try {
@@ -105,47 +125,6 @@ const controller = {
         sendErrorResponse(response, "Error processing the uploaded image.");
       }
     });
-  },
-  deleteImage: async (request, response) => {
-    const username = getQueryParam(
-      request.url,
-      "username",
-      request.headers.host
-    );
-    const photo = getQueryParam(request.url, "photo", request.headers.host);
-
-    try {
-      const users = await readJsonFile();
-      const user = findUserByUsername(users, username);
-
-      if (user && user.photos.includes(photo)) {
-        await deletePhoto(username, photo, user);
-
-        await writeUserData(users);
-
-        response.writeHead(200, { "Content-Type": "text/plain" });
-        response.end("Image deleted successfully");
-      } else {
-        response.writeHead(404, { "Content-Type": "text/plain" });
-        response.end("User or photo not found");
-      }
-    } catch (err) {
-      console.error(err);
-      response.writeHead(500, { "Content-Type": "text/plain" });
-      response.end("Server error during image deletion");
-    }
-  },
-  getSettings: async (request, response) => {
-    try {
-      const str = await renderTemplate("settings.ejs", {});
-
-      response.writeHead(200, { "Content-Type": "text/html" });
-      response.end(str);
-    } catch (err) {
-      console.error("Error:", err);
-      response.writeHead(500, DEFAULT_HEADER);
-      response.end("Server error");
-    }
   },
   getGallery: async (request, response) => {
     try {
