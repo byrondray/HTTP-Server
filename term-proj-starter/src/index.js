@@ -5,4 +5,4 @@ const PORT = process.env.PORT || 3000;
 
 http
   .createServer(handler)
-  .listen(PORT, () => console.log(`server is running at  ${PORT}`));
+  .listen(PORT, () => console.log(`server is running at ${PORT}`));

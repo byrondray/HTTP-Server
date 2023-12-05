@@ -1,24 +1,24 @@
 const parse = require("url").parse;
 
-function parseRequest(request) {
+const parseRequest = (request) => {
   const { url, method } = request;
   const { pathname } = parse(url, true);
   return { pathname, method: method.toLowerCase() };
-}
+};
 
-function handleUpload(request, response, allRoutes) {
+const handleUpload = (request, response, allRoutes) => {
   const username = request.pathname.split("/")[2];
   request.username = username;
   return allRoutes["/upload:post"](request, response);
-}
+};
 
-function handleGallery(request, response, allRoutes) {
+const handleGallery = (request, response, allRoutes) => {
   const username = request.pathname.split("/")[2];
   request.username = username;
   return allRoutes["/gallery:post"](request, response);
-}
+};
 
-function handleProfilePicture(request, response, allRoutes) {
+const handleProfilePicture = (request, response, allRoutes) => {
   const username = request.pathname.split("/")[2];
   const profile = request.pathname.split("/")[3];
   if (!username) {
@@ -29,9 +29,9 @@ function handleProfilePicture(request, response, allRoutes) {
   request.username = username;
   request.profile = profile;
   return allRoutes["/profilePicture:get"](request, response);
-}
+};
 
-function handleFeedImages(request, response, allRoutes) {
+const handleFeedImages = (request, response, allRoutes) => {
   const urlParts = request.pathname.split("/");
   const username = urlParts[2];
   const photo = urlParts[3];
@@ -43,7 +43,7 @@ function handleFeedImages(request, response, allRoutes) {
   request.username = username;
   request.photo = photo;
   return allRoutes["/feedImages:get"](request, response);
-}
+};
 
 module.exports = {
   parseRequest,

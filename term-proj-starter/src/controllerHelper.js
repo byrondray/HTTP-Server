@@ -102,7 +102,7 @@ const getContentType = (filePath) => {
   }
 };
 
-async function checkFileExists(filePath) {
+const checkFileExists = async (filePath) => {
   try {
     await access(filePath);
     return true;
@@ -112,7 +112,7 @@ async function checkFileExists(filePath) {
     }
     throw error;
   }
-}
+};
 
 module.exports = {
   readJsonFile,
