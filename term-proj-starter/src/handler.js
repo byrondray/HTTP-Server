@@ -58,10 +58,6 @@ const handler = (request, response) => {
     return handleGallery(request, response, allRoutes);
   }
 
-  if (pathname.startsWith("/delete/") && method === "delete") {
-    return handleDelete(request, response, allRoutes);
-  }
-
   if (pathname.startsWith("/profilePicture/") && method === "get") {
     return handleProfilePicture(request, response, allRoutes);
   }
