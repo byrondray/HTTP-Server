@@ -343,4 +343,5 @@ body {
 
 .back-arrow:hover {
   font-size: 45px;
+  color: var(--button-hover-color);
 }

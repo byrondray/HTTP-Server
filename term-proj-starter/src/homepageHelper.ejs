@@ -3,49 +3,57 @@
   <title>Homepage</title>
   <link rel="stylesheet" type="text/css" href="./homepageHelper.css" />
   <link rel="stylesheet" type="text/css" href="./global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
   <body>
-    <div class="logo-container">
-      <img src="/instagramLogo" alt="instagram logo" class="logo" />
-    </div>
-    <div class="main-container">
-      <h1>Users</h1>
-      <div class="users-container">
-        <% users.forEach(user => { %>
-        <div class="user-card">
-          <div class="profile-image-container">
-            <img
-              src="/profilePicture/<%= user.username %>/<%= user.profile %>"
-              alt="<%= user.username %>'s Profile Picture"
-              class="profile-img"
-            />
-          </div>
-          <div class="user-info">
-            <a href="/feed?username=<%= user.username %>">
-              <input
-                type="button"
-                class="button username"
-                value="<%= user.username %>"
+    <div class="content-container">
+      <div class="logo-container">
+        <img src="/instagramLogo" alt="instagram logo" class="logo" />
+      </div>
+      <div class="main-container">
+        <h1>Users</h1>
+        <div class="users-container">
+          <% users.forEach(user => { %>
+          <div class="user-card">
+            <div class="profile-image-container">
+              <img
+                src="/profilePicture/<%= user.username %>/<%= user.profile %>"
+                alt="<%= user.username %>'s Profile Picture"
+                class="profile-img"
               />
-            </a>
-            <form
-              action="/upload/?username=<%= user.username %>"
-              enctype="multipart/form-data"
-              method="post"
-            >
-              <label class="custom-file-upload">
-                Choose File
+            </div>
+            <div class="user-info">
+              <a href="/feed?username=<%= user.username %>">
                 <input
-                  type="file"
-                  name="upload"
-                  accept="image/*"
-                  class="file-input"
+                  type="button"
+                  class="button username"
+                  value="<%= user.username %>"
                 />
-              </label>
-              <input type="submit" class="button" value="upload" />
-            </form>
+              </a>
+              <form
+                action="/upload/?username=<%= user.username %>"
+                enctype="multipart/form-data"
+                method="post"
+              >
+                <label class="custom-file-upload">
+                  Choose File
+                  <input
+                    type="file"
+                    name="upload"
+                    accept="image/*"
+                    class="file-input"
+                  />
+                </label>
+                <input type="submit" class="button" value="upload" />
+              </form>
+            </div>
           </div>
+          <% }); %>
         </div>
-        <% }); %>
       </div>
     </div>
   </body>
