@@ -66,14 +66,6 @@ const sendRedirectResponse = (response, location) => {
   response.end();
 };
 
-const deletePhoto = async (username, photo, user) => {
-  const photoIndex = user.photos.indexOf(photo);
-  user.photos.splice(photoIndex, 1);
-
-  const photoPath = path.join(__dirname, "photos", username, photo);
-  await unlink(photoPath);
-};
-
 const streamFile = (filePath, response, contentType) => {
   const stream = createReadStream(filePath);
 
@@ -117,13 +109,11 @@ const checkFileExists = async (filePath) => {
 module.exports = {
   readJsonFile,
   getQueryParam,
-  writeUserData,
   findUserByUsername,
   renderTemplate,
   initializeForm,
   processUploadedFile,
   sendRedirectResponse,
-  deletePhoto,
   streamFile,
   getContentType,
   checkFileExists,

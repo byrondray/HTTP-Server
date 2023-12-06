@@ -2,6 +2,7 @@
   --button-color: #a1d6e2;
   --button-hover-color: #1995ad;
   --font-family-main: "Roboto", sans-serif;
+  --background-color: #ffffff;
 }
 
 *,
@@ -12,7 +13,7 @@
 
 body {
   font-family: var(--font-family-main);
-  background-color: #f2f2f2;
+  background-color: var(--background-color);
   margin: 0;
   padding: 0;
   height: 100vh;
