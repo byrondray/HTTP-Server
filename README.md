@@ -1,7 +1,11 @@
-My HTTP Server Project
-This is a small project to explore and test the functionality of an HTTP server.
+# 🌐 My HTTP Server Project
 
-Features
-Simple HTTP server to handle basic requests.
-Configurable routes and responses.
-Lightweight and easy to set up.
+A small project to explore and test the functionality of an HTTP server.
+
+---
+
+## 🚀 Features
+- 🖥 **Simple HTTP Server**: Handles basic HTTP requests with ease.
+- 🔧 **Configurable Routes and Responses**: Customize routes and their responses to fit your needs.
+- ⚡ **Lightweight and Easy to Set Up**: Minimal dependencies for quick testing and deployment.
+
